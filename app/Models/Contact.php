@@ -10,7 +10,7 @@ class Contact extends Model
     use HasFactory;
     protected $guarded = [];
 
-    // define inverse relationship
+    // define inverse relationship with students table 
     public function student(){
         return $this->belongsTo(Student::class);
     }

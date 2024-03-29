@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Student;
-use App\Models\Contact;
 
+/* ---- DEFINE ONE TO MANY RELATIONSHIP --- */
 class StudentController extends Controller
 {
     /**
@@ -13,24 +13,31 @@ class StudentController extends Controller
      */
     public function index()
     {
-        // $students = Student::with('contact')->get(); // with ke sath func ka naam aata hai jo humne model mai banaya hai 
-        // $students = Student::with('contact')->find(2);
+        // $students = Student::with('book')->get();
+        // $students = Student::with('book')->find(2); // for fetching single record
 
-        /* ------- AGAR STUDENTS TABLE MAI SEARCHES KRNA HAI TO WHERE KA USE HOGA ---- */
-        // $students = Student::with('contact')->where('gender','F')->get();
-        
-        /* ------ BUT AGAR CONTACT VALI TABLE MAI SE DATA RETRIEVE KRNA HAI TO CONDITION LAGAKE TO WHERE METHOD KA USE NAHI HOGA USKE LIYE WITHWHEREHAS LAGANE HOGA */
-        $students = Student::where('gender','F')->withWhereHas('contact',function($query){
-            $query->where('city','pune');
-        })->get();
+        /* --- WE CAN ALSO WRITE LIKE THAT --- */
 
-        /* -- only student table ka record show krega but contact table ka bhi filter apply hoga uspe --- */
-        $students = Student::where('gender','F')->whereHas('contact',function($query){
-            $query->where('city','pune');
-        })->get();
-        
-        // echo $students->name ."<br>";
-        // echo $students->contact->email ."<br>";
+        // $students = Student::find(2);
+        // $books = $students->book;
+
+        /* --- UNN STUDENTS KA DATA SHOW KREGA JINHONE ABHI TAK EK BHI BOOK NAHI LI HAI --- */
+        // $students = Student::doesntHave('book')->get(); // here book is relationship name 
+
+        /* --- UNN STUDENTS KA DATA SHOW KREGA JINHONE KOI BHI BOOK LI HAI --- */
+        // $students = Student::has('book')->get();
+
+        /* --- UNN STUDENTS KA DATA SHOW KREGA JINHONE KOI BHI BOOK LI HAI with book Detail --- */
+        // $students = Student::has('book')->with('book')->get();
+
+        /* --- UNN STUDENTS KA DATA SHOW KREGA JINHONE ek se jyada book li hai  --- */
+        // $students = Student::has('book', '>=', 2)
+        //                     ->with('book')
+        //                     ->get();
+
+        /* --- COUNTS KO SHOW KRNE K LIYE ISS METHOD KA USE KRENGE --- */
+        $students = Student::withCount('book')->get();
+
         return $students;
     }
 
@@ -39,20 +46,7 @@ class StudentController extends Controller
      */
     public function create()
     {
-        // ek hi controller se dono table mai data insert karayenge
-        $student = Student::create([
-            'name' => 'john Abraham',
-            'age' => 18,
-            'gender' => 'M'
-        ]);
-
-        // yaha vahi func ka name aayga jo humne student model mai define kiya tha 
-        $student->contact()->create([
-            'email' => 'john@gmail.com',
-            'phone' => '7868696786',
-            'address' => 'kajipura ankpat marg',
-            'city' => 'mumbai',
-        ]);
+        //
     }
 
     /**
