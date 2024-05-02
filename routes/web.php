@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\FileUploadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,7 @@ Route::resource('student', StudentController::class);
 Route::get('/contact', [ContactController::class, 'show']);
 
 // one to many
-Route::resource('book', BookController::class);
+// Route::resource('book', BookController::class);
+
+// image upload route
+Route::resource('fileupload', FileUploadController::class);
