@@ -13,7 +13,7 @@ class FileUploadController extends Controller
     public function index()
     {
         $fileUploads = FileUpload::all();
-        return view('file_upload', compact('fileUploads'));
+        return view('fileUpload.file_upload', compact('fileUploads'));
     }
 
     /**
@@ -100,7 +100,7 @@ class FileUploadController extends Controller
     {
         $data = FileUpload::findOrFail($id);
         // return $fileUploads;
-        return view('file_update', compact('data'));
+        return view('fileUpload.file_update', compact('data'));
     }
 
     /**
